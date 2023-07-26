@@ -16,5 +16,7 @@ module.exports = {
     'react',
   ],
   'rules': {
+    'no-unused-vars': 'off',
+    'no-trailing-spaces': 'off',
   },
 };
