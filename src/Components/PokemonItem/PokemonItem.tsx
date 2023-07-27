@@ -1,25 +1,35 @@
 import React from 'react';
+import './PokemonItem.scss';
+
+import { getTagColorClass } from '../../Utils/GetTagColor';
 import { PokemonDetails } from '../../Types/PokemonDetails';
 
 type Props = {
   pokemon: PokemonDetails;
-  index: number;
 }
 
-export const PokemonItem: React.FC<Props> = ({ pokemon, index }) => {
+export const PokemonItem: React.FC<Props> = ({ pokemon }) => {
   return (
-    <>
-      <li key={index}>
-        {pokemon.name} - {pokemon.weight} - {pokemon.types.map(item => (
-          <span>{item.type.name} </span>
-        ))}
-      </li>
+    <div
+      className='card box content'
+    >
+      {pokemon.sprites.front_default && (
+        <img
+          className='card__image'
+          src={pokemon.sprites.front_default} alt=""
+        />
+      )}
       
-      <div>
-        {pokemon.sprites.front_default && (
-          <img src={pokemon.sprites.front_default} alt="" />
-        )}
-      </div>
-    </>
+      <h4 className='card__name'>{pokemon.name}</h4>
+      
+      {pokemon.types.map(item => (
+        <span
+          key={item.type.name}
+          className={`tag ${getTagColorClass(item.type.name)}`}
+        >
+          {item.type.name}
+        </span>
+      ))}
+    </div>
   );
 };
