@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './PokemonList.scss';
 import { fetchPokemonAPI } from '../../API/PokeAPI';
 
 import { PokemonsResponse } from '../../Types/PokemonsResponse';
@@ -46,17 +47,27 @@ export const PokemonsList = () => {
   }, [pokemonsData]);
 
   return (
-    <div>
-      <ul>
+    <div className='list-container'>
+      <div className='list box'>
         {pokemonDetails.length && (
           pokemonDetails.map((pokemon: PokemonDetails, index: number) => (
             <PokemonItem
+              key={index}
               pokemon={pokemon}
-              index={index}
             />
           ))
         )}
-      </ul>
+        
+        <div className='list__buttons'>
+          <button className='button is-info list__button'>
+            Go Back
+          </button>
+          
+          <button className='button is-info list__button'>
+            Load More
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

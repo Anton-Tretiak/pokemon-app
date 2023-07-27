@@ -1,0 +1,27 @@
+.card {
+  width: 200px;
+  height: 220px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: 0.2s;
+  
+  &:hover {
+    transform: scale(1.03);
+  }
+  
+  &__name {
+    text-transform: capitalize;
+  }
+}
+
+.tag {
+  margin-right: 5px;
+  text-transform: capitalize;
+  
+  &:last-child {
+    margin-right: 0;
+  }
+}
