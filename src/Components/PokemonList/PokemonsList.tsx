@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import './PokemonList.scss';
-import { fetchPokemonAPI } from '../../API/PokeAPI';
 
 import { PokemonsResponse } from '../../Types/PokemonsResponse';
 import { PokemonDetails } from '../../Types/PokemonDetails';
@@ -8,82 +7,21 @@ import { PokemonDetails } from '../../Types/PokemonDetails';
 import { PokemonItem } from '../PokemonItem/PokemonItem';
 import { Loader } from '../Loader/Loader';
 
-export const PokemonsList = () => {
-  const [pokemonsData, setPokemonsData] = useState<PokemonsResponse | null>(
-    null,
-  );
-  const [pokemonDetails, setPokemonDetails] = useState<PokemonDetails[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+type Props = {
+  pokemonsData: PokemonsResponse | null;
+  pokemonDetails: PokemonDetails[];
+  isLoading: boolean;
+  onLoadNextPage: () => void;
+  onLoadPreviousPage: () => void;
+};
 
-  const getPokemonsData = async() => {
-    try {
-      const apiResponse = await fetchPokemonAPI();
-
-      setPokemonsData(apiResponse);
-    } catch {
-      throw new Error('Error while fetching data');
-    }
-  };
-  
-  const fetchPokemonDetails = async(pokemonUrls: string[]) => {
-    try {
-      const promises = pokemonUrls.map(async(url: string) => {
-        const response = await fetch(url);
-        
-        return response.json();
-      });
-      
-      const pokemonDetailsArray = await Promise.all(promises);
-      
-      setPokemonDetails(pokemonDetailsArray);
-    } catch {
-      throw new Error('Error while fetching pokemon details');
-    }
-  };
-
-  useEffect(() => {
-    getPokemonsData();
-  }, []);
-
-  useEffect(() => {
-    if (pokemonsData) {
-      const pokemonUrls = pokemonsData.results.map((pokemon) => pokemon.url);
-      
-      fetchPokemonDetails(pokemonUrls);
-    }
-  }, [pokemonsData]);
-  
-  const fetchPage = async(url: string) => {
-    try {
-      setIsLoading(true);
-      
-      const response = await fetch(url);
-      const data: PokemonsResponse = await response.json();
-      
-      setPokemonsData(data);
-      
-      const pokemonUrls = data.results.map((pokemon) => pokemon.url);
-      
-      fetchPokemonDetails(pokemonUrls);
-    } catch {
-      throw new Error('Error while fetching page');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
-  const loadNextPage = async() => {
-    if (pokemonsData?.next) {
-      fetchPage(pokemonsData.next);
-    }
-  };
-  
-  const loadPreviousPage = async() => {
-    if (pokemonsData?.previous) {
-      fetchPage(pokemonsData.previous);
-    }
-  };
-
+export const PokemonsList: React.FC<Props> = ({
+  pokemonsData,
+  pokemonDetails,
+  isLoading,
+  onLoadNextPage,
+  onLoadPreviousPage,
+}) => {
   return (
     <div className='list-container'>
       <div className={`list box ${isLoading && 'loading-height'}`}>
@@ -103,7 +41,7 @@ export const PokemonsList = () => {
         <div className='list__buttons'>
           <button
             className='button is-info list__button'
-            onClick={loadPreviousPage}
+            onClick={onLoadPreviousPage}
             disabled={!pokemonsData?.previous}
           >
             Go Back
@@ -111,7 +49,7 @@ export const PokemonsList = () => {
           
           <button
             className='button is-info list__button'
-            onClick={loadNextPage}
+            onClick={onLoadNextPage}
             disabled={!pokemonsData?.next}
           >
             Load More
