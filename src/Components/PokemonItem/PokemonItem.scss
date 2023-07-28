@@ -6,10 +6,15 @@
   text-align: center;
   background-color: #f0f0f0;
   cursor: pointer;
-  transition: 0.2s;
+  transition-property: transform;
+  transition: 0.1s;
   
   &:hover {
     transform: scale(1.03);
+  }
+  
+  &__clicked {
+    border: 2px solid #3f8ed0;
   }
   
   &__name {
