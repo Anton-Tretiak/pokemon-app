@@ -6,12 +6,15 @@ import { PokemonDetails } from '../../Types/PokemonDetails';
 
 type Props = {
   pokemon: PokemonDetails;
+  isClicked: boolean;
+  onPokemonClick: (pokemon: PokemonDetails) => void;
 }
 
-export const PokemonItem: React.FC<Props> = ({ pokemon }) => {
+export const PokemonItem: React.FC<Props> = ({ pokemon, isClicked, onPokemonClick }) => {
   return (
     <div
-      className='card box content'
+      className={`card box content ${isClicked ? 'card__clicked' : ''}`}
+      onClick={() => onPokemonClick(pokemon)}
     >
       {pokemon.sprites.front_default && (
         <img

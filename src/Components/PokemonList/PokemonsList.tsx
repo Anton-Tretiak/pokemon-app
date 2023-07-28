@@ -13,14 +13,18 @@ type Props = {
   isLoading: boolean;
   onLoadNextPage: () => void;
   onLoadPreviousPage: () => void;
+  selectedPokemon: PokemonDetails | null;
+  onPokemonClick: (pokemon: PokemonDetails) => void;
 };
 
-export const PokemonsList: React.FC<Props> = ({
+export const PokemonsList: React.FC<Props> = React.memo(({
   pokemonsData,
   pokemonDetails,
   isLoading,
   onLoadNextPage,
   onLoadPreviousPage,
+  selectedPokemon,
+  onPokemonClick,
 }) => {
   return (
     <div className='list-container'>
@@ -33,6 +37,8 @@ export const PokemonsList: React.FC<Props> = ({
               <PokemonItem
                 key={index}
                 pokemon={pokemon}
+                isClicked={pokemon === selectedPokemon}
+                onPokemonClick={onPokemonClick}
               />
             ))
           )
@@ -58,4 +64,4 @@ export const PokemonsList: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+});

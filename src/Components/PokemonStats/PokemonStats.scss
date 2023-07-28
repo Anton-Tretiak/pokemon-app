@@ -1,0 +1,33 @@
+.stats {
+  &__wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  &__card {
+    min-width: 300px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  &__name {
+    text-transform: capitalize;
+  }
+  
+  &__type {
+    text-transform: capitalize;
+  }
+}
+
+.table {
+  text-align: center;
+  
+  &__first-column {
+    width: 60%;
+  }
+}
