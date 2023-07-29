@@ -4,6 +4,7 @@ import { PokemonStats } from './PokemonStats';
 import { PokemonMoves } from './PokemonMoves';
 
 export interface PokemonDetails {
+  id: number;
   name: string;
   weight: number;
   types: PokemonTypes[];

@@ -15,7 +15,6 @@
   }
 }
 
-
 .list {
   display: grid;
   grid-template-columns: repeat(3, 200px);
@@ -33,6 +32,14 @@
   &__button {
     width: 250px;
     transition: 0.2s;
+  }
+  
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 200px);
+  }
+  
+  @media (max-width: 760px) {
+    grid-template-columns: repeat(1, 200px);
   }
 }
 

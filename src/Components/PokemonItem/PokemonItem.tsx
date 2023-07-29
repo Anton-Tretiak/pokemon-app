@@ -10,11 +10,15 @@ type Props = {
   onPokemonClick: (pokemon: PokemonDetails) => void;
 }
 
-export const PokemonItem: React.FC<Props> = ({ pokemon, isClicked, onPokemonClick }) => {
+export const PokemonItem: React.FC<Props> = React.memo(({ pokemon, isClicked, onPokemonClick }) => {
+  const handlePokemonClick = () => {
+    onPokemonClick(pokemon);
+  };
+  
   return (
     <div
       className={`card box content ${isClicked ? 'card__clicked' : ''}`}
-      onClick={() => onPokemonClick(pokemon)}
+      onClick={handlePokemonClick}
     >
       {pokemon.sprites.front_default && (
         <img
@@ -35,4 +39,4 @@ export const PokemonItem: React.FC<Props> = ({ pokemon, isClicked, onPokemonClic
       ))}
     </div>
   );
-};
+});

@@ -6,8 +6,7 @@
   text-align: center;
   background-color: #f0f0f0;
   cursor: pointer;
-  transition-property: transform;
-  transition: 0.1s;
+  transition: transform 0.1s;
   
   &:hover {
     transform: scale(1.03);

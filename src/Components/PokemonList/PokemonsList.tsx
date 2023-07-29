@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './PokemonList.scss';
 
 import { PokemonsResponse } from '../../Types/PokemonsResponse';
@@ -17,7 +17,7 @@ type Props = {
   onPokemonClick: (pokemon: PokemonDetails) => void;
 };
 
-export const PokemonsList: React.FC<Props> = React.memo(({
+export const PokemonsList: React.FC<Props> = ({
   pokemonsData,
   pokemonDetails,
   isLoading,
@@ -26,19 +26,23 @@ export const PokemonsList: React.FC<Props> = React.memo(({
   selectedPokemon,
   onPokemonClick,
 }) => {
+  const handlePokemonClick = useCallback((pokemon: PokemonDetails) => {
+    onPokemonClick(pokemon);
+  }, [onPokemonClick]);
+  
   return (
     <div className='list-container'>
       <div className={`list box ${isLoading && 'loading-height'}`}>
         {isLoading ? (
           <Loader />
         ) : (
-          pokemonDetails.length && (
-            pokemonDetails.map((pokemon: PokemonDetails, index: number) => (
+          pokemonDetails.length > 0 && (
+            pokemonDetails.map((pokemon: PokemonDetails) => (
               <PokemonItem
-                key={index}
+                key={pokemon.id}
                 pokemon={pokemon}
                 isClicked={pokemon === selectedPokemon}
-                onPokemonClick={onPokemonClick}
+                onPokemonClick={handlePokemonClick}
               />
             ))
           )
@@ -64,4 +68,4 @@ export const PokemonsList: React.FC<Props> = React.memo(({
       </div>
     </div>
   );
-});
+};
