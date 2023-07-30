@@ -1,13 +1,11 @@
 import React from 'react';
+import { usePokemonData } from './hooks/usePokemonData';
+
+import { Header, PokemonsList, PokemonStats } from './components';
+
 import './App.scss';
 
-import { Header } from './Components/Header/Header';
-import { PokemonsList } from './Components/PokemonList/PokemonsList';
-import { PokemonStats } from './Components/PokemonStats/PokemonStats';
-
-import { usePokemonData } from './Hooks/usePokemonData';
-
-function App() {
+export const App = () => {
   const {
     pokemonsData,
     pokemonDetails,
@@ -37,6 +35,4 @@ function App() {
       </section>
     </div>
   );
-}
-
-export default App;
+};
