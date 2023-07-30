@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { fetchPokemonAPI } from '../API/PokeAPI';
-import { PokemonsResponse } from '../Types/PokemonsResponse';
-import { PokemonDetails } from '../Types/PokemonDetails';
+import { fetchPokemonAPI, fetchData } from '../api/PokeAPI';
+import { PokemonsResponse } from '../types/PokemonsResponse';
+import { PokemonDetails } from '../types/PokemonDetails';
 
 export function usePokemonData() {
   const [pokemonsData, setPokemonsData] = useState<PokemonsResponse | null>(null);
@@ -18,25 +18,24 @@ export function usePokemonData() {
       setPokemonsData(apiResponse);
     } catch (error) {
       throw new Error('Error while fetching data');
-    } finally {
-      setIsLoading(false);
     }
   };
   
   const fetchPokemonDetails = async(pokemonUrls: string[]) => {
     try {
       setPokemonDetails([]);
-
-      const promises = pokemonUrls.map(async(url: string) => {
-        const response = await fetch(url);
-
-        return response.json();
-      });
-      const pokemonDetailsArray = await Promise.all(promises);
+      
+      const pokemonDetailsArray: PokemonDetails[] = [];
+      
+      for (let i = 0; i < pokemonUrls.length; i++) {
+        pokemonDetailsArray.push(await fetchData<PokemonDetails>(pokemonUrls[i]));
+      }
 
       setPokemonDetails(pokemonDetailsArray);
     } catch (error) {
       throw new Error('Error while fetching pokemon details');
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -55,9 +54,8 @@ export function usePokemonData() {
   const fetchPage = async(url: string) => {
     try {
       setIsLoading(true);
-
-      const response = await fetch(url);
-      const data: PokemonsResponse = await response.json();
+      
+      const data = await fetchData<PokemonsResponse>(url);
 
       setPokemonsData(data);
 
@@ -66,8 +64,6 @@ export function usePokemonData() {
       fetchPokemonDetails(pokemonUrls);
     } catch (error) {
       throw new Error('Error while fetching page');
-    } finally {
-      setIsLoading(false);
     }
   };
   

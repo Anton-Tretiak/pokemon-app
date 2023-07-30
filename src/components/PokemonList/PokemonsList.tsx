@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, FC } from 'react';
+import cn from 'classnames';
+
+import { PokemonsResponse } from '../../types/PokemonsResponse';
+import { PokemonDetails } from '../../types/PokemonDetails';
+
+import { PokemonItem } from '../PokemonItem';
+import { Loader } from '../Loader';
+
 import './PokemonList.scss';
-
-import { PokemonsResponse } from '../../Types/PokemonsResponse';
-import { PokemonDetails } from '../../Types/PokemonDetails';
-
-import { PokemonItem } from '../PokemonItem/PokemonItem';
-import { Loader } from '../Loader/Loader';
 
 type Props = {
   pokemonsData: PokemonsResponse | null;
@@ -17,7 +19,7 @@ type Props = {
   onPokemonClick: (pokemon: PokemonDetails) => void;
 };
 
-export const PokemonsList: React.FC<Props> = ({
+export const PokemonsList: FC<Props> = ({
   pokemonsData,
   pokemonDetails,
   isLoading,
@@ -32,7 +34,7 @@ export const PokemonsList: React.FC<Props> = ({
   
   return (
     <div className='list-container'>
-      <div className={`list box ${isLoading && 'loading-height'}`}>
+      <div className={cn('list', 'box', { 'loading-height': isLoading })}>
         {isLoading ? (
           <Loader />
         ) : (
@@ -45,8 +47,7 @@ export const PokemonsList: React.FC<Props> = ({
                 onPokemonClick={handlePokemonClick}
               />
             ))
-          )
-        )}
+          ))}
         
         <div className='list__buttons'>
           <button

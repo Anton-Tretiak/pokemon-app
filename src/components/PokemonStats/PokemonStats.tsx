@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react';
-import './PokemonStats.scss';
+import React, { useMemo, FC } from 'react';
 
-import { PokemonDetails } from '../../Types/PokemonDetails';
+import { PokemonDetails } from '../../types/PokemonDetails';
+
+import './PokemonStats.scss';
 
 type Props = {
   selectedPokemon: PokemonDetails | null;
 };
 
-export const PokemonStats: React.FC<Props> = ({ selectedPokemon }) => {
+export const PokemonStats: FC<Props> = ({ selectedPokemon }) => {
   const renderStatsTable = useMemo(() => {
     if (!selectedPokemon) {
       return <h4>Choose a Pokemon</h4>;

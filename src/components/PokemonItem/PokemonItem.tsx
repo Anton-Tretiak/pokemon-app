@@ -1,8 +1,10 @@
-import React from 'react';
-import './PokemonItem.scss';
+import React, { FC, memo } from 'react';
+import cn from 'classnames';
 
-import { getTagColorClass } from '../../Utils/GetTagColor';
-import { PokemonDetails } from '../../Types/PokemonDetails';
+import { getTagColorClass } from '../../utils/GetTagColor';
+import { PokemonDetails } from '../../types/PokemonDetails';
+
+import './PokemonItem.scss';
 
 type Props = {
   pokemon: PokemonDetails;
@@ -10,20 +12,20 @@ type Props = {
   onPokemonClick: (pokemon: PokemonDetails) => void;
 }
 
-export const PokemonItem: React.FC<Props> = React.memo(({ pokemon, isClicked, onPokemonClick }) => {
+export const PokemonItem: FC<Props> = memo(({ pokemon, isClicked, onPokemonClick }) => {
   const handlePokemonClick = () => {
     onPokemonClick(pokemon);
   };
   
   return (
     <div
-      className={`card box content ${isClicked ? 'card__clicked' : ''}`}
+      className={cn('card', 'box', 'content', { 'card__clicked': isClicked })}
       onClick={handlePokemonClick}
     >
       {pokemon.sprites.front_default && (
         <img
           className='card__image'
-          src={pokemon.sprites.front_default} alt=""
+          src={pokemon.sprites.front_default} alt="pokemon image"
         />
       )}
       
@@ -32,7 +34,7 @@ export const PokemonItem: React.FC<Props> = React.memo(({ pokemon, isClicked, on
       {pokemon.types.map(item => (
         <span
           key={item.type.name}
-          className={`tag ${getTagColorClass(item.type.name)}`}
+          className={cn('tag', getTagColorClass(item.type.name))}
         >
           {item.type.name}
         </span>
